@@ -1,3 +1,10 @@
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -43,13 +50,48 @@ public class BlackJack {
     int dealerSum;
     int dealerAceCount;
 
-//    Player
+    //    Player
     ArrayList<Card> playerHand;
     int playerSum;
     int playerAceCount;
 
+    //  Window
+    int boardWidth =1000;
+    int boardHeight=800;
+
+    JFrame frame = new JFrame("Black Jack");
+    JPanel gamePanel = new JPanel();
+
+    public static ImageIcon makeImageIcon(String filename) {
+        BufferedImage myPicture;
+        try {
+
+            myPicture = ImageIO.read(new File("src/"+filename));
+            return new ImageIcon(myPicture);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     BlackJack(){
         startGame();
+
+        //Create image
+        JLabel imageHolder = new JLabel();
+        imageHolder.setIcon(makeImageIcon("background.jpg"));
+
+        //Add image to panel, add panel to frame
+        gamePanel.add(imageHolder);
+
+        frame.add(gamePanel);
+        frame.setResizable(false);
+        frame.setSize(boardWidth , boardHeight);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+//        gamePanel.setLayout(new BorderLayout());
+//        gamePanel.setBackground(new Color(102,0,102));
+
     }
     public void startGame(){
     // Deck
