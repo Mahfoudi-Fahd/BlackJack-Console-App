@@ -56,8 +56,8 @@ public class BlackJack {
     int playerAceCount;
 
     //  Window
-    int boardWidth =1000;
-    int boardHeight=800;
+    int boardWidth =900;
+    int boardHeight=525;
 
     JFrame frame = new JFrame("Black Jack");
     JPanel gamePanel = new JPanel();
@@ -79,7 +79,7 @@ public class BlackJack {
 
         //Create image
         JLabel imageHolder = new JLabel();
-        imageHolder.setIcon(makeImageIcon("background.jpg"));
+        imageHolder.setIcon(makeImageIcon("Background.png"));
 
         //Add image to panel, add panel to frame
         gamePanel.add(imageHolder);
@@ -103,11 +103,11 @@ public class BlackJack {
         dealerSum = 0;
         dealerAceCount= 0;
 
-        hiddenCard = deck.remove(deck.size()-1);
+        hiddenCard = deck.remove(0);
         dealerSum += hiddenCard.getValue(dealerSum);
         dealerAceCount += hiddenCard.isAce() ? 1 : 0;
 
-        Card card = deck.remove(deck.size()-1);
+        Card card = deck.remove(0);
         dealerSum += card.getValue(dealerSum);
         dealerAceCount += card.isAce() ? 1 : 0;
         dealerHand.add(card);
