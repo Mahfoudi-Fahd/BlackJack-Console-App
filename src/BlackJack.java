@@ -2,6 +2,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,9 +27,8 @@ public class BlackJack {
         }
 
         public int getValue(int currentSum) {
-            if (isAce() && currentSum + 11 > 21) {
-                return 1;  // Ace should be 1 if it prevents going over 21
-            } else if ("AJQK".contains(value)) {
+
+            if ("AJQK".contains(value)) {
                 if (value.equals("A")) {
                     return 11;
                 }
@@ -74,13 +75,13 @@ public class BlackJack {
             super.paintComponent(g);
 try {
     Image hiddenCardImg = new ImageIcon(Objects.requireNonNull(getClass().getResource("/cards/BACK.png"))).getImage();
-    g.drawImage(hiddenCardImg, 20, 20, cardWidth, cardHeight, null);
+    g.drawImage(hiddenCardImg, 20, 20, cardWidth-5, cardHeight, null);
 
 //    DrawdealerHand
-    for (int i = 0; i < dealerHand.size() ; i++) {
-        Card card = dealerHand.get(i);
+    for (int i = 1; i <= dealerHand.size() ; i++) {
+        Card card = dealerHand.get(i-1);
         Image cardImg = new ImageIcon(Objects.requireNonNull(getClass().getResource(card.getImagePath()))).getImage();
-        g.drawImage(cardImg, cardWidth+25, (cardHeight)*i+20 ,100, cardHeight, null,null );
+        g.drawImage(cardImg, 20 + ( cardWidth )*i, 20 ,cardWidth-5 , cardHeight,null );
     }
 //    DrawPlayerHand
     for (int i = 0; i < playerHand.size(); i++) {
@@ -139,6 +140,51 @@ try {
         standButton.setForeground(Color.white);
         buttonPanel.add(standButton);
         frame.add(buttonPanel, BorderLayout.SOUTH);
+
+
+        hitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Card card =deck.remove(0);
+                playerSum += card.getValue(dealerSum);
+                playerAceCount += card.isAce() ? 1 : 0;
+                playerHand.add(card);
+                if (reducePlayerAce()==21 ){
+                    hitButton.setEnabled(false);
+                    standButton.setEnabled(false);
+                    while (dealerSum<17) {
+                        card = deck.remove(0);
+                        dealerSum += card.getValue(dealerSum);
+                        dealerAceCount += card.isAce() ? 1 : 0;
+                        dealerHand.add(card);
+                    }
+
+                } else if (reducePlayerAce()>21) {
+                    hitButton.setEnabled(false);
+                    standButton.setEnabled(false);
+                }
+                gamePanel.repaint();
+
+            }
+        });
+
+        standButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hitButton.setEnabled(false);
+                standButton.setEnabled(false);
+                while (dealerSum<17){
+                    Card card = deck.remove(0);
+                    dealerSum += card.getValue(dealerSum);
+                    dealerAceCount+= card.isAce()? 1 : 0;
+                    dealerHand.add(card);
+
+                }
+                gamePanel.repaint();
+            }
+        });
+
+        gamePanel.repaint();
 
     }
     public void startGame(){
@@ -248,6 +294,22 @@ try {
         System.out.println(deck);
     }
 
+public int reducePlayerAce(){
+        while (playerSum>21 && playerAceCount >0){
+            playerSum -= 10;
+            playerAceCount -=1;
 
+        }
+    System.out.println(playerSum);
+        return playerSum;
+}
 
+    public int reduceDealerAce() {
+        while (dealerSum>21 && dealerAceCount >0){
+            dealerSum -= 10;
+            dealerAceCount -=1;
+
+        }
+        return dealerSum;
+    }
 }
