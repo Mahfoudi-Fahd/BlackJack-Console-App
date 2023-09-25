@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class BlackJack {
@@ -72,19 +73,19 @@ public class BlackJack {
         public void paintComponent(Graphics g){
             super.paintComponent(g);
 try {
-    Image hiddenCardImg = new ImageIcon(getClass().getResource("/cards/BACK.png")).getImage();
+    Image hiddenCardImg = new ImageIcon(Objects.requireNonNull(getClass().getResource("/cards/BACK.png"))).getImage();
     g.drawImage(hiddenCardImg, 20, 20, cardWidth, cardHeight, null);
 
 //    DrawdealerHand
     for (int i = 0; i < dealerHand.size() ; i++) {
         Card card = dealerHand.get(i);
-        Image cardImg = new ImageIcon(getClass().getResource(card.getImagePath())).getImage();
+        Image cardImg = new ImageIcon(Objects.requireNonNull(getClass().getResource(card.getImagePath()))).getImage();
         g.drawImage(cardImg, cardWidth+25, (cardHeight)*i+20 ,100, cardHeight, null,null );
     }
 //    DrawPlayerHand
     for (int i = 0; i < playerHand.size(); i++) {
         Card card = playerHand.get(i);
-        Image cardImg = new ImageIcon(getClass().getResource(card.getImagePath())).getImage();
+        Image cardImg = new ImageIcon(Objects.requireNonNull(getClass().getResource(card.getImagePath()))).getImage();
         g.drawImage(cardImg , 20 + ( cardWidth )*i , 280 , cardWidth-5 , cardHeight,null);
 
     }
