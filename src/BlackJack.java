@@ -74,7 +74,12 @@ public class BlackJack {
         public void paintComponent(Graphics g){
             super.paintComponent(g);
 try {
+//    Draw hidden Card
+
     Image hiddenCardImg = new ImageIcon(Objects.requireNonNull(getClass().getResource("/cards/BACK.png"))).getImage();
+    if(!standButton.isEnabled()){
+        hiddenCardImg = new ImageIcon(Objects.requireNonNull(getClass().getResource(hiddenCard.getImagePath()))).getImage();
+    }
     g.drawImage(hiddenCardImg, 20, 20, cardWidth-5, cardHeight, null);
 
 //    DrawdealerHand
@@ -90,6 +95,36 @@ try {
         g.drawImage(cardImg , 20 + ( cardWidth )*i , 280 , cardWidth-5 , cardHeight,null);
 
     }
+    if(!standButton.isEnabled()){
+        dealerSum = reduceDealerAce();
+        playerSum = reducePlayerAce();
+        System.out.println("Stay: ");
+        System.out.println(dealerSum);
+        System.out.println(playerSum);
+
+        String message = "";
+        if (playerSum>21){
+            message = "You Lose ! ";
+        } else if (dealerSum>21) {
+
+            message="You Win !";
+        } else if (playerSum == dealerSum) {
+            message = "Tie";
+
+        } else if (playerSum > dealerSum) {
+            message = "You Win !";
+
+        }else if (playerSum < dealerSum){
+            message = "You Lose !";
+        }
+
+
+g.setFont(new Font("Arial",Font.PLAIN,30));
+        g.setColor(Color.white);
+        g.drawString(message, 20 , 250);
+
+    }
+
 }catch (Exception e){
     e.printStackTrace();
 }
