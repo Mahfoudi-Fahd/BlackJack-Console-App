@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
+import javax.swing.JOptionPane;
+
 
 public class BlackJack {
 
@@ -62,8 +64,8 @@ public class BlackJack {
     int playerAceCount;
 
     //  Window
-    int boardWidth =900;
-    int boardHeight=525;
+    int boardWidth =1000;
+    int boardHeight=725;
 
     int cardWidth= 110;
     int cardHeight=154;
@@ -92,7 +94,7 @@ try {
     for (int i = 0; i < playerHand.size(); i++) {
         Card card = playerHand.get(i);
         Image cardImg = new ImageIcon(Objects.requireNonNull(getClass().getResource(card.getImagePath()))).getImage();
-        g.drawImage(cardImg , 20 + ( cardWidth )*i , 280 , cardWidth-5 , cardHeight,null);
+        g.drawImage(cardImg , 20 + ( cardWidth )*i , 475 , cardWidth-5 , cardHeight,null);
 
     }
     if(!standButton.isEnabled()){
@@ -103,28 +105,41 @@ try {
         System.out.println(playerSum);
 
         String message = "";
+        int sum = 0;
         if (playerSum>21){
-            message = "You Lose ! ";
+            message = " You Lose ! ";
+            sum = playerSum;
         } else if (dealerSum>21) {
 
             message="You Win !";
+            sum = playerSum;
+
         } else if (playerSum == dealerSum) {
             message = "Tie";
+            sum = dealerSum;
+
 
         } else if (playerSum > dealerSum) {
             message = "You Win !";
+            sum = playerSum;
 
         }else if (playerSum < dealerSum){
             message = "You Lose !";
+            sum = playerSum;
+
         }
 
 
-g.setFont(new Font("Arial",Font.PLAIN,30));
+g.setFont(new Font("Arial",Font.BOLD,50));
         g.setColor(Color.white);
-        g.drawString(message, 20 , 250);
+        g.drawString(message, 300 , 250);
+g.setFont(new Font("Arial" , Font.PLAIN , 20));
+        g.setColor(Color.white);
+        g.drawString(String.valueOf(sum), 590 , 430);
+
+
 
     }
-
 }catch (Exception e){
     e.printStackTrace();
 }
@@ -137,17 +152,17 @@ g.setFont(new Font("Arial",Font.PLAIN,30));
     JButton standButton = new JButton("Stand");
 
 
-    public static ImageIcon makeImageIcon(String filename) {
-        BufferedImage myPicture;
-        try {
-
-            myPicture = ImageIO.read(new File("src/"+filename));
-            return new ImageIcon(myPicture);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    public static ImageIcon makeImageIcon(String filename) {
+//        BufferedImage myPicture;
+//        try {
+//
+//            myPicture = ImageIO.read(new File("src/"+filename));
+//            return new ImageIcon(myPicture);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     BlackJack(){
         startGame();
@@ -200,6 +215,7 @@ g.setFont(new Font("Arial",Font.PLAIN,30));
                 }
                 gamePanel.repaint();
 
+
             }
         });
 
@@ -215,11 +231,19 @@ g.setFont(new Font("Arial",Font.PLAIN,30));
                     dealerHand.add(card);
 
                 }
+
                 gamePanel.repaint();
+                //  Play Again
+                int option = JOptionPane.showConfirmDialog(frame, "Do you want to play again?", "Play Again", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    resetGame();
+                }
             }
+
         });
 
         gamePanel.repaint();
+
 
     }
     public void startGame(){
@@ -347,4 +371,16 @@ public int reducePlayerAce(){
         }
         return dealerSum;
     }
+
+    private void resetGame() {
+        startGame();
+        hitButton.setEnabled(true);
+        standButton.setEnabled(true);
+        gamePanel.repaint();
+    }
 }
+
+
+
+
+
