@@ -105,37 +105,49 @@ try {
         System.out.println(playerSum);
 
         String message = "";
-        int sum = 0;
+        int playersum = 0;
+        int dealersum = 0;
         if (playerSum>21){
             message = " You Lose ! ";
-            sum = playerSum;
+            playersum = playerSum;
+            dealersum = dealerSum;
+
         } else if (dealerSum>21) {
 
             message="You Win !";
-            sum = playerSum;
+            playersum = playerSum;
+            dealersum = dealerSum;
+
 
         } else if (playerSum == dealerSum) {
             message = "Tie";
-            sum = dealerSum;
+            playersum = dealerSum;
+            dealersum = dealerSum;
+
 
 
         } else if (playerSum > dealerSum) {
             message = "You Win !";
-            sum = playerSum;
+            playersum = playerSum;
+            dealersum = dealerSum;
+
 
         }else if (playerSum < dealerSum){
             message = "You Lose !";
-            sum = playerSum;
+            playersum = playerSum;
+            dealersum = dealerSum;
 
         }
 
 
 g.setFont(new Font("Arial",Font.BOLD,50));
         g.setColor(Color.white);
-        g.drawString(message, 300 , 250);
+        g.drawString(message, 350 , 250);
 g.setFont(new Font("Arial" , Font.PLAIN , 20));
         g.setColor(Color.white);
-        g.drawString(String.valueOf(sum), 590 , 430);
+        g.drawString(String.valueOf(playersum), 190 , 430);
+        g.drawString(String.valueOf(dealersum), 190 , 230);
+
 
 
 
@@ -212,8 +224,16 @@ g.setFont(new Font("Arial" , Font.PLAIN , 20));
                 } else if (reducePlayerAce()>21) {
                     hitButton.setEnabled(false);
                     standButton.setEnabled(false);
+                    gamePanel.repaint();
+                    //  Play Again
+                    int option = JOptionPane.showConfirmDialog(frame, "Do you want to play again?", "Play Again", JOptionPane.YES_NO_OPTION);
+                    if (option == JOptionPane.YES_OPTION) {
+                        resetGame();
+                    }
                 }
                 gamePanel.repaint();
+
+
 
 
             }
@@ -286,7 +306,6 @@ g.setFont(new Font("Arial" , Font.PLAIN , 20));
         System.out.println(playerHand);
         System.out.println(playerSum);
         System.out.println(playerAceCount);
-
     }
 //    public void buildDeck(){
 //        deck = new ArrayList<Card>();
@@ -379,8 +398,3 @@ public int reducePlayerAce(){
         gamePanel.repaint();
     }
 }
-
-
-
-
-
