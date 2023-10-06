@@ -99,10 +99,12 @@ public class BlackJack {
                 }
                 dealerSum = reduceDealerAce();
                 playerSum = reducePlayerAce();
+
                 g.setFont(new Font("Arial", Font.BOLD, 20));
                 g.setColor(Color.white);
                 g.drawString(String.valueOf(playerSum), 190, 430);
-                g.drawString(String.valueOf(dealerSum), 190, 230);
+
+
                 if (!standButton.isEnabled()) {
                     System.out.println("Stay: ");
                     System.out.println(dealerSum);
@@ -142,10 +144,12 @@ public class BlackJack {
 
                     }
 
-
                     g.setFont(new Font("Arial", Font.BOLD, 50));
                     g.setColor(Color.white);
                     g.drawString(message, 350, 250);
+                    g.setFont(new Font("Arial", Font.BOLD, 20));
+                    g.setColor(Color.white);
+                    g.drawString(String.valueOf(dealerSum), 190, 230);
 
 
                 }
@@ -154,11 +158,14 @@ public class BlackJack {
             }
         }
     };
+
+
+//    buttons
     JPanel buttonPanel = new JPanel();
     JButton hitButton = new JButton("Hit");
-
-
     JButton standButton = new JButton("Stand");
+
+
 
 
     BlackJack() {
@@ -193,7 +200,6 @@ public class BlackJack {
                 if (reducePlayerAce() == 21) {
                     hitButton.setEnabled(false);
                     standButton.setEnabled(false);
-                    //  Play Again
 
                     while (dealerSum < 17) {
                         card = deck.remove(0);
@@ -215,6 +221,7 @@ public class BlackJack {
                         resetGame();
                     }
                 }
+
                 gamePanel.repaint();
 
 
